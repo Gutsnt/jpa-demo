@@ -1,5 +1,7 @@
 package net.charlie;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,57 @@ public class JpaDemoApplication implements CommandLineRunner {
 		//guardar();
 		//buscarPorId();
 		//modificar();
-		eliminar();
+		//eliminar();
+		//conteo();
+		//eliminarTodo();
+		//encontrarPorId();
+		//buscarTodo();
+		guardarTodo();
+		
 	}
 	
+	//guardar todo
+	private void guardarTodo() {
+		List<Categoria> categorias = getListaCategorias();
+		repo.saveAll(categorias);
+		
+	}
+	//Existe o no 
+	private void existeId() {
+		boolean existe = repo.existsById(7);
+		System.out.println("la cateogria existe? " + existe);
+	}
+	//buscar todo
+	private void buscarTodo() {
+		Iterable<Categoria> categorias = repo.findAll();
+		for (Categoria cat: categorias) {
+			System.out.println(cat);
+		}
+	}
+	//buscartodoporid
+	private void encontrarPorId() {
+		List<Integer> ids = new LinkedList<Integer>();
+		ids.add(1);
+		ids.add(4);
+		ids.add(10);
+		Iterable<Categoria> categorias= repo.findAllById(ids);
+		for(Categoria cat: categorias) {
+			System.out.println(cat);
+		}
+		
+	}
+	
+	//borrarTodo
+	private void eliminarTodo() {
+		repo.deleteAll();
+		
+	}
+	//Conteo
+	private void conteo(){
+		long cout = repo.count();
+		System.out.println("Total cateogrias " + cout);
+		
+	}
 	//Delete
 	private void eliminar () {
 		int idcategoria = 1;
@@ -69,6 +119,31 @@ public class JpaDemoApplication implements CommandLineRunner {
 		cat.setDescripcion("Trabajos relacionados con finanzas");
 		repo.save(cat);
 		System.out.println(cat);
+	}
+	
+	private List<Categoria> getListaCategorias(){
+		List<Categoria> list = new LinkedList<Categoria>();
+		//categoria 1
+		Categoria cat1 = new Categoria();
+		cat1.setNombre("Programador de BlockChain");
+		cat1.setDescripcion("Trabajos relacionados con cripto monedas");
+		
+		//categoria 2
+		Categoria cat2 = new Categoria();
+		cat2.setNombre("Soldado/Pintor");
+		cat2.setDescripcion("Trabajos relacionados soldadura y pintura");
+		
+		//categoria 3
+		Categoria cat3 = new Categoria();
+		cat3.setNombre("Ingeniero industrial");
+		cat3.setDescripcion("Trabajos relacionados con ingenieria industrial");
+		
+		list.add(cat1);
+		list.add(cat2);
+		list.add(cat3);
+		
+		return list;
+		
 	}
 
 }
