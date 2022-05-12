@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import net.charlie.model.Categoria;
 import net.charlie.repository.CategoriasRepository;
@@ -25,16 +28,38 @@ public class JpaDemoApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		//guardar();
-		//buscarPorId();
-		//modificar();
-		//eliminar();
-		//conteo();
-		//eliminarTodo();
-		//encontrarPorId();
-		//buscarTodo();
-		guardarTodo();
+		buscarTodoPaginacionOrdenamiento();
 		
+	}
+	//buscar todos ordenados por campo
+	private void buscarTodosOrdenados() {
+		List<Categoria> categorias = repo.findAll(Sort.by("nombre").descending());
+		for (Categoria cat: categorias) {
+			System.out.println(cat.getId() + "  " +cat.getNombre());
+		}
+	}
+		//paginacion
+	private void buscarTodoPaginacion() {
+		Page<Categoria> page = repo.findAll(PageRequest.of(1, 5));
+		System.out.println("Total Registros " + page.getTotalElements());
+		System.out.println("Total de Paginas " + page.getTotalPages());
+		for (Categoria cat: page.getContent()) {
+			System.out.println(cat.getId() + "  " + cat.getNombre());
+		}
+	}
+	
+	 //paginacion y ordenamiento
+	private void buscarTodoPaginacionOrdenamiento() {
+		Page<Categoria> page = repo.findAll(PageRequest.of(1, 5,Sort.by("nombre").descending()));
+		System.out.println("Total Registros " + page.getTotalElements());
+		System.out.println("Total de Paginas " + page.getTotalPages());
+		for (Categoria cat: page.getContent()) {
+			System.out.println(cat.getId() + "  " + cat.getNombre());
+		}
+	}
+	//borrar todo en lote
+	private void borrarTodoEnBloque() {
+		repo.deleteAllInBatch();
 	}
 	
 	//guardar todo
@@ -50,9 +75,9 @@ public class JpaDemoApplication implements CommandLineRunner {
 	}
 	//buscar todo
 	private void buscarTodo() {
-		Iterable<Categoria> categorias = repo.findAll();
+		List<Categoria> categorias = repo.findAll();
 		for (Categoria cat: categorias) {
-			System.out.println(cat);
+			System.out.println(cat.getId() + "  " +cat.getNombre());
 		}
 	}
 	//buscartodoporid
