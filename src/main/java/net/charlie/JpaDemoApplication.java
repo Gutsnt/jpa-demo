@@ -69,7 +69,7 @@ public class JpaDemoApplication implements CommandLineRunner {
 	
 	// Query Method Buscar Vacantes por Destacado y Estados Ordenar por Id desc
 	private void buscarVacantePorDestacadoEstatus() {
-		List<Vacante> list = repoVacantes.findbyDestacadoAndEstatusOrderByIdDesc(1, "Aprobada");
+		List<Vacante> list = repoVacantes.findByDestacadoAndEstatusOrderByIdDesc(1, "Aprobada");
 		System.out.println("Registros Encontrado "+ list.size());
 		for(Vacante v: list){
 			System.out.println(v.getId() + " " + v.getNombre()+" "+ v.getEstatus() + " " + v.getDestacada());
