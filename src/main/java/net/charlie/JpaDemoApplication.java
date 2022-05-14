@@ -45,7 +45,44 @@ public class JpaDemoApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		buscarUsuario();	
+		buscarVacantePorEstatus();
+	}
+	
+	// Query Method Buscar Vacantes por Varios Estatus(In)
+	private void buscarVacantesPorVariosEstatus() {
+		String[] estatus = new String[] {"Eliminada","Creada"};
+		List<Vacante> list = repoVacantes.findByEstatusIn(estatus);
+		System.out.println("Registros Encontrado "+ list.size());
+		for(Vacante v: list){
+			System.out.println(v.getId() + " " + v.getNombre()+": $"+ v.getSalario());
+		}
+	}
+	
+	// Query Method Buscar Vacantes por rango de sueldo(Between)
+	private void buscarVacantesSalario() {
+		List<Vacante> list = repoVacantes.findBySalarioBetweenOrderBySalarioDesc(7000,14000);
+		System.out.println("Registros Encontrado "+ list.size());
+		for(Vacante v: list){
+			System.out.println(v.getId() + " " + v.getNombre()+": $"+ v.getSalario());
+		}
+	}
+	
+	// Query Method Buscar Vacantes por Destacado y Estados Ordenar por Id desc
+	private void buscarVacantePorDestacadoEstatus() {
+		List<Vacante> list = repoVacantes.findbyDestacadoAndEstatusOrderByIdDesc(1, "Aprobada");
+		System.out.println("Registros Encontrado "+ list.size());
+		for(Vacante v: list){
+			System.out.println(v.getId() + " " + v.getNombre()+" "+ v.getEstatus() + " " + v.getDestacada());
+		}
+	}
+	// Query Method Buscar Vacante por Estatus
+	private void buscarVacantePorEstatus(){
+		List<Vacante> list = repoVacantes.findByEstatus("Eliminada");
+		System.out.println("Registros Encontrado "+ list.size());
+		for(Vacante v: list){
+			System.out.println(v.getId() + " " + v.getNombre()+" "+ v.getEstatus());
+		}
+		
 	}
 	
 	
