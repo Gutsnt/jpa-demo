@@ -45,7 +45,7 @@ public class JpaDemoApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		buscarVacantePorEstatus();
+		buscarVacantesPorVariosEstatus();
 	}
 	
 	// Query Method Buscar Vacantes por Varios Estatus(In)
@@ -54,7 +54,7 @@ public class JpaDemoApplication implements CommandLineRunner {
 		List<Vacante> list = repoVacantes.findByEstatusIn(estatus);
 		System.out.println("Registros Encontrado "+ list.size());
 		for(Vacante v: list){
-			System.out.println(v.getId() + " " + v.getNombre()+": $"+ v.getSalario());
+			System.out.println(v.getId() + " " + v.getNombre()+": $"+ v.getSalario() + " " + v.getEstatus());
 		}
 	}
 	
